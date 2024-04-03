@@ -1,0 +1,30 @@
+/* DeleteFormFood.css */
+
+/* Стилизация на формата за изтриване на продукти */
+.delete-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Стилизация на картата за информация за храната */
+  .food-info-card {
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Стилизация на текста за потвърждение за изтриване */
+  .confirm-delete p {
+    margin-bottom: 10px;
+  }
+  
+  /* Стилизация на бутона за изтриване */
+  .confirm-delete button {
+    margin-right: 10px;
+  }
+  
