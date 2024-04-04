@@ -8,7 +8,6 @@ import "./Home.css";
 
 export default function Home() {
   const [search, setSearch] = useState("");
-  const [allFoods, setAllFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [selectedFoods, setSelectedFoods] = useState(
     JSON.parse(localStorage.getItem("selectedFoods")) || []
@@ -18,7 +17,6 @@ export default function Home() {
     const fetchFoods = async () => {
       try {
         const response = await foodClient.getAllFoods();
-        setAllFoods(response);
         setFilteredFoods(response);
       } catch (error) {
         console.error("Грешка при извличане на информация за храните:", error);
@@ -28,15 +26,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const filtered = allFoods.filter((food) =>
-      food.name.toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredFoods(filtered);
-  }, [search, allFoods]);
+    const searchFoods = async () => {
+      try {
+        const response = await foodClient.searchFood(search);
+        setFilteredFoods(response);
+      } catch (error) {
+        console.error("Грешка при търсене на храните:", error);
+      }
+    };
 
-  useEffect(() => {
-    localStorage.setItem("selectedFoods", JSON.stringify(selectedFoods));
-  }, [selectedFoods]);
+    searchFoods();
+  }, [search]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -47,13 +47,19 @@ export default function Home() {
       (selectedFood) => selectedFood.id === food.id
     );
     if (!isAlreadySelected) {
-      setSelectedFoods((prevSelectedFoods) => [...prevSelectedFoods, food]);
+      const updatedSelectedFoods = [...selectedFoods, food];
+      setSelectedFoods(updatedSelectedFoods);
+      localStorage.setItem(
+        "selectedFoods",
+        JSON.stringify(updatedSelectedFoods)
+      );
     } else {
       console.log("Този продукт вече е добавен.");
     }
   };
   const handleClearSelected = () => {
     setSelectedFoods([]);
+    localStorage.removeItem("selectedFoods");
   };
 
   return (

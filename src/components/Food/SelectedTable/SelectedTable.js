@@ -50,6 +50,7 @@ const SelectedTable = ({ selectedFood, setSelectedFood }) => {
       (food) => food.id !== foodId
     );
     setSelectedFood(updatedSelectedFood);
+    localStorage.setItem("selectedFoods", JSON.stringify(updatedSelectedFood));
   };
 
   return (
